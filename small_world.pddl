@@ -3,7 +3,7 @@
   (:objects
     node1 node2 node3 node4 - node
     class1 class2 - class
-    obstacle1 obstacle2 obstacle3 obstacle4 - obstacle)
+    obstacle1 obstacle2 - obstacle)
   
   (:init
     ;; Nodes
@@ -26,6 +26,10 @@
     (obstacle-at obstacle1 node2)
     (unpassable-at node2)
     
+    ;; Define which class destroies which obstacles
+    (class-clear-obstacle class1 obstacle1)
+    (class-clear-obstacle class2 obstacle2)
+
     ;; Treasure
     (treasure-at node2)
     (treasure-at node4)
