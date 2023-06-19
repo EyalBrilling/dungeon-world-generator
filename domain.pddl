@@ -28,8 +28,8 @@
                     (not (unpassable-at ?from))
                     )
     :effect (and
-              (not (at ?class ?from))
-              (at ?class ?to)))
+              (not (class-at ?class ?from))
+              (class-at ?class ?to)))
 
   (:action pick-up
     :parameters (?node - node ?class - class)
@@ -46,7 +46,6 @@
     :parameters (?node - node ?class - class)
     :precondition (and
                     (class-at ?class ?node)
-                    (clear ?node)
                     (treasure-carried ?class)
                     (not (unpassable-at ?node)) ;; Can't drop treasure from a node with obstacle
                     (portal-at ?node)) ;; Treasure can only be dropped into portals
