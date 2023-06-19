@@ -6,8 +6,7 @@
     node - object
     class -object
     obstacle -object
-    portal - object
-    treasure - object)
+    portal - object)
 
   ;; Define the predicates
   (:predicates
