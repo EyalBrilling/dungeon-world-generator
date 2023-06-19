@@ -58,7 +58,7 @@
     :precondition (and
                     (class-at ?class ?node)
                     (obstacle-at ?obstacle ?node)
-                    (class-clear-obstacle ?class -class ?obstacle - obstacle)
+                    (class-clear-obstacle ?class ?obstacle)
                     (not (treasure-carried ?class)))
     :effect (and
               (not(obstacle-at ?obstacle ?node))
