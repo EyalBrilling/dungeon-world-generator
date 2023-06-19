@@ -5,8 +5,7 @@
   (:types 
     node - object
     class -object
-    obstacle -object
-    portal - object)
+    obstacle -object)
 
   ;; Define the predicates
   (:predicates
