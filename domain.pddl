@@ -13,6 +13,7 @@
     (connected ?from - node ?to - node)
     (class-at ?class - class ?node - node)
     (obstacle-at ?obstacle - obstacle ?node - node)
+    (class-clear-obstacle ?class -class ?obstacle - obstacle)
     (treasure-at ?node - node)
     (portal-at ?node - node)
     (unpassable-at ?node - node)
@@ -57,6 +58,7 @@
     :precondition (and
                     (class-at ?class ?node)
                     (obstacle-at ?obstacle ?node)
+                    (class-clear-obstacle ?class -class ?obstacle - obstacle)
                     (not (treasure-carried ?class)))
     :effect (and
               (not(obstacle-at ?obstacle ?node))
