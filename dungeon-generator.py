@@ -1,6 +1,7 @@
 import sys
 import typing
-from random import choice
+import math
+from random import choice,sample
 # args: number of nodes,mean degree,number of classes(min 1,max 3),
 # number of obstacles(min 0,max number of nodes),
 # number of treasures(min 1,max number of nodes),number of portals(min 1,max number of nodes)
@@ -20,7 +21,7 @@ class Problem:
         # Problem information
         self.classes_starting_position : int
         self.connected_nodes : list[list[int]]
-        self.obstacles_placements : list
+        self.obstacles_placements : list[list[int]]
         self.treasure_placements : list
         self.portal_placements : list
 
@@ -67,10 +68,10 @@ class Problem:
         return True
 
     def generate_problem(self):
-        self.classes_starting_position = self.make_node_connectings(self.num_nodes,self.max_degree)
+        self.classes_starting_position = self.generate_node_connectings(self.num_nodes,self.max_degree)
+        self.obstacles_placements = self.generate_obstacles(self.num_obstacles,self.num_classes) # number of obstacle types = number of classes
 
-
-    def make_node_connectings(self,number_of_nodes : int,max_degree : int):
+    def generate_node_connectings(self,number_of_nodes : int,max_degree : int):
         connected_node_list : list[list[int]] = [[] for i in range(number_of_nodes)]
         # Generate edges not passing max_degree
         for i in range(max_degree):
@@ -92,7 +93,14 @@ class Problem:
                 connected_node_list[randomized_node_to_connect_to].append(node_index)
         
         return connected_node_list
+    
+    def generate_obstacles(self,number_of_obstacles,number_of_obstacle_types):
+        obstacle_nodes_list = [[] for i in range(number_of_obstacle_types)]
+        for obstacle_type_index in range(number_of_obstacle_types):
+            obstacle_nodes_list[obstacle_type_index] = sample([i for i in range(self.num_nodes)],math.ceil(number_of_obstacles/number_of_obstacle_types))
 
+        return obstacle_nodes_list
+    
 if __name__ == '__main__':
     args = sys.argv
     problem = Problem()
