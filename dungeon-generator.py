@@ -19,7 +19,7 @@ class Problem:
         self.num_portals : int
 
         # Problem information
-        self.classes_starting_position : int
+        self.classes_starting_position : list
         self.connected_nodes : list[list[int]]
         self.obstacles_placements : list[list[int]]
         self.treasure_placements : list
@@ -68,10 +68,11 @@ class Problem:
         return True
 
     def generate_problem(self):
-        self.classes_starting_position = self.generate_node_connectings(self.num_nodes,self.max_degree)
+        self.connected_nodes = self.generate_node_connectings(self.num_nodes,self.max_degree)
         self.obstacles_placements = self.generate_obstacles(self.num_obstacles,self.num_classes) # number of obstacle types = number of classes
         self.treasure_placements = self.generate_treasures(self.num_treasures)
         self.portal_placements = self.generate_portals(self.num_portals)
+        self.classes_starting_position = self.generate_starting_class_positions(self.portal_placements,self.num_classes) # start classes on one of the portals
 
     def generate_node_connectings(self,number_of_nodes : int,max_degree : int):
         connected_node_list : list[list[int]] = [[] for i in range(number_of_nodes)]
@@ -112,7 +113,13 @@ class Problem:
         portals_nodes_list = []
         portals_nodes_list = sample([i for i in range(self.num_nodes)],number_of_portals)
         return portals_nodes_list
-    
+    # In the current problem definition,all classes start at the same place
+    def generate_starting_class_positions(self,start_options : list,number_of_classes : int):
+        chosen_node = choice(start_options)
+        class_starting_nodes_list = [chosen_node for class_type in range(number_of_classes)]
+        return class_starting_nodes_list
+
+
 if __name__ == '__main__':
     args = sys.argv
     problem = Problem()
