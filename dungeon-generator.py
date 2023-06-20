@@ -129,13 +129,17 @@ class Problem:
         class_starting_nodes_list = [chosen_node for class_type in range(number_of_classes)]
         return class_starting_nodes_list
 
-
-if __name__ == '__main__':
+def main():
     args = sys.argv
     problem = Problem()
     # Parse the arguments into the problem class
     if problem.parse_arguments(args):
-        print(f"Parsed arguments: {problem.num_nodes}, {problem.max_degree}, {problem.num_classes}, {problem.num_obstacles}, {problem.num_treasures}, {problem.num_portals}")
-
+        print(f"Parsed arguments: {problem.num_nodes}, {problem.max_degree}, {problem.num_classes}, {problem.num_obstacles}, {problem.num_treasures}, {problem.num_portals}, {problem.problem_path}")
+    else:
+        return
+        
     problem.generate_problem_information()
     problem.generate_problem_pddl_file()
+
+if __name__ == '__main__':
+    main()
