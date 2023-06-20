@@ -67,12 +67,15 @@ class Problem:
 
         return True
 
-    def generate_problem(self):
+    def generate_problem_information(self):
         self.connected_nodes = self.generate_node_connectings(self.num_nodes,self.max_degree)
         self.obstacles_placements = self.generate_obstacles(self.num_obstacles,self.num_classes) # number of obstacle types = number of classes
         self.treasure_placements = self.generate_treasures(self.num_treasures)
         self.portal_placements = self.generate_portals(self.num_portals)
         self.classes_starting_position = self.generate_starting_class_positions(self.portal_placements,self.num_classes) # start classes on one of the portals
+
+    def generate_problem_pddl_file(self):
+        return
 
     def generate_node_connectings(self,number_of_nodes : int,max_degree : int):
         connected_node_list : list[list[int]] = [[] for i in range(number_of_nodes)]
@@ -127,4 +130,5 @@ if __name__ == '__main__':
     if problem.parse_arguments(args):
         print(f"Parsed arguments: {problem.num_nodes}, {problem.max_degree}, {problem.num_classes}, {problem.num_obstacles}, {problem.num_treasures}, {problem.num_portals}")
 
-    problem.generate_problem()
+    problem.generate_problem_information()
+    problem.generate_problem_pddl_file()
