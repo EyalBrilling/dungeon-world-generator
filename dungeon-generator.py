@@ -1,6 +1,7 @@
 import sys
 import typing
 import math
+import os
 from random import choice,sample
 
 # args: number of nodes,mean degree,number of classes(min 1,max 3),
@@ -82,7 +83,21 @@ class Problem:
         self.classes_starting_position = self.generate_starting_class_positions(self.portal_placements,self.num_classes) # start classes on one of the portals
 
     def generate_problem_pddl_file(self):
-        return
+        pddl_file = open(self.problem_path,"w")
+        self.write_define_section(pddl_file)
+        pddl_file.write("\n")
+
+    def write_define_section(self,pddl_file):
+        file_name = os.path.splitext(os.path.basename(self.problem_path))[0]
+        pddl_file.write("(define (problem %s)\n" %(file_name))
+        pddl_file.write("  (:domain dungeon-world)\n")
+        pddl_file.write("  (:objects\n")
+        # Make a list of numbered nodes,classes and obstacles. then join them with " " and put in string.
+        pddl_file.write("    %s - node\n" %(" ".join(["node"+str(i) for i in range(self.num_nodes)])))
+        pddl_file.write("    %s - class\n" %(" ".join(["class"+str(i) for i in range(self.num_classes)])))
+        pddl_file.write("    %s - obstacle)\n" %(" ".join(["obstacle"+str(i) for i in range(self.num_obstacles)])))
+    
+
 
     def generate_node_connectings(self,number_of_nodes : int,max_degree : int):
         connected_node_list : list[list[int]] = [[] for i in range(number_of_nodes)]
