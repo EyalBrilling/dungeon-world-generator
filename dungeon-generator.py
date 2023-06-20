@@ -97,7 +97,10 @@ class Problem:
         pddl_file.write("    %s - class\n" %(" ".join(["class"+str(i) for i in range(self.num_classes)])))
         pddl_file.write("    %s - obstacle)\n" %(" ".join(["obstacle"+str(i) for i in range(self.num_obstacles)])))
     
-
+    def write_init_section(self,pddl_file):
+        pddl_file.write("  (:init\n")
+        # Write nodes connections into file
+        pddl_file.write("  (:init\n")
 
     def generate_node_connectings(self,number_of_nodes : int,max_degree : int):
         connected_node_list : list[list[int]] = [[] for i in range(number_of_nodes)]
