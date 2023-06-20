@@ -70,6 +70,8 @@ class Problem:
     def generate_problem(self):
         self.classes_starting_position = self.generate_node_connectings(self.num_nodes,self.max_degree)
         self.obstacles_placements = self.generate_obstacles(self.num_obstacles,self.num_classes) # number of obstacle types = number of classes
+        self.treasure_placements = self.generate_treasures(self.num_treasures)
+        self.portal_placements = self.generate_portals(self.num_portals)
 
     def generate_node_connectings(self,number_of_nodes : int,max_degree : int):
         connected_node_list : list[list[int]] = [[] for i in range(number_of_nodes)]
@@ -94,12 +96,22 @@ class Problem:
         
         return connected_node_list
     
-    def generate_obstacles(self,number_of_obstacles,number_of_obstacle_types):
+    def generate_obstacles(self,number_of_obstacles : int,number_of_obstacle_types : int):
         obstacle_nodes_list = [[] for i in range(number_of_obstacle_types)]
         for obstacle_type_index in range(number_of_obstacle_types):
             obstacle_nodes_list[obstacle_type_index] = sample([i for i in range(self.num_nodes)],math.ceil(number_of_obstacles/number_of_obstacle_types))
 
         return obstacle_nodes_list
+    
+    def generate_treasures(self,number_of_treasures : int):
+        treasures_nodes_list = []
+        treasures_nodes_list = sample([i for i in range(self.num_nodes)],number_of_treasures)
+        return treasures_nodes_list
+    
+    def generate_portals(self,number_of_portals : int):
+        portals_nodes_list = []
+        portals_nodes_list = sample([i for i in range(self.num_nodes)],number_of_portals)
+        return portals_nodes_list
     
 if __name__ == '__main__':
     args = sys.argv
