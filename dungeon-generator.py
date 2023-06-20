@@ -2,6 +2,7 @@ import sys
 import typing
 import math
 from random import choice,sample
+
 # args: number of nodes,mean degree,number of classes(min 1,max 3),
 # number of obstacles(min 0,max number of nodes),
 # number of treasures(min 1,max number of nodes),number of portals(min 1,max number of nodes)
@@ -11,6 +12,7 @@ class Problem:
 
 
         # Input variables
+        self.problem_path : str
         self.num_nodes : int
         self.max_degree : int
         self.num_classes : int
@@ -26,7 +28,7 @@ class Problem:
         self.portal_placements : list
 
     def parse_arguments(self, args):
-        if len(args) != 7:
+        if len(args) != 8:
             print("Invalid number of arguments!")
             return False
 
@@ -38,9 +40,14 @@ class Problem:
             self.num_treasures = int(args[5])
             self.num_portals = int(args[6])
         except ValueError:
-            print("Invalid argument type! Arguments must be integers.")
+            print("Invalid argument type! Problem arguments must be integers.")
             return False
-
+        try:
+            self.problem_path = str(args[7])
+        except ValueError:
+            print("Invalid argument type for problem path, Must be string")
+            return False
+        
         if self.num_nodes <= 0:
             print("Number of nodes must be greater than zero.")
             return False
