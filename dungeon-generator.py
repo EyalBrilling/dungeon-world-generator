@@ -88,7 +88,7 @@ class Problem:
         pddl_file.write("\n")
         self.write_init_section(pddl_file)
         self.write_goal_section(pddl_file)
-        
+
     def write_define_section(self,pddl_file):
         file_name = os.path.splitext(os.path.basename(self.problem_path))[0]
         pddl_file.write("(define (problem %s)\n" %(file_name))
@@ -142,10 +142,19 @@ class Problem:
         for portalPlacement in self.portal_placements:
             pddl_file.write("    (portal-at node%s)\n" %(portalPlacement))
 
+        pddl_file.write("    )\n")
         pddl_file.write("\n")
 
     def write_goal_section(self,pddl_file):
+        pddl_file.write("  (:goal\n")
+        pddl_file.write("    (and\n")
+        for classNumber,startingPosition in enumerate(self.classes_starting_position):
+            pddl_file.write("      (class-at ")
+            pddl_file.write("class%s node%s)\n" %(classNumber,startingPosition))
+        for treasurePlacement in self.treasure_placements:
+            pddl_file.write("      (not (treasure-at node%s))\n" %(treasurePlacement))
 
+        pddl_file.write("      )))")
     def generate_node_connectings(self,number_of_nodes : int,max_degree : int):
         connected_node_list : list[list[int]] = [[] for i in range(number_of_nodes)]
         # Generate edges not passing max_degree
