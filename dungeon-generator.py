@@ -86,7 +86,7 @@ class Problem:
         pddl_file = open(self.problem_path,"w")
         self.write_define_section(pddl_file)
         pddl_file.write("\n")
-
+        self.write_init_section(pddl_file)
     def write_define_section(self,pddl_file):
         file_name = os.path.splitext(os.path.basename(self.problem_path))[0]
         pddl_file.write("(define (problem %s)\n" %(file_name))
@@ -95,12 +95,52 @@ class Problem:
         # Make a list of numbered nodes,classes and obstacles. then join them with " " and put in string.
         pddl_file.write("    %s - node\n" %(" ".join(["node"+str(i) for i in range(self.num_nodes)])))
         pddl_file.write("    %s - class\n" %(" ".join(["class"+str(i) for i in range(self.num_classes)])))
-        pddl_file.write("    %s - obstacle)\n" %(" ".join(["obstacle"+str(i) for i in range(self.num_obstacles)])))
+        pddl_file.write("    %s - obstacle)\n" %(" ".join(["obstacle"+str(i) for i in range(self.num_classes)])))
     
     def write_init_section(self,pddl_file):
         pddl_file.write("  (:init\n")
+
         # Write nodes connections into file
-        pddl_file.write("  (:init\n")
+        pddl_file.write("    ;; Nodes\n")
+        for nodeIndex,nodeConnections in enumerate(self.connected_nodes):
+            for connectedNodeIndex in nodeConnections:
+                pddl_file.write("    (connected ")
+                pddl_file.write("node%s node%s)\n" %(nodeIndex,connectedNodeIndex))
+
+        pddl_file.write("\n")
+
+        pddl_file.write("    ;; Classes\n")
+        for classNumber,startingPosition in enumerate(self.classes_starting_position):
+            pddl_file.write("    (class-at ")
+            pddl_file.write("class%s node%s)\n" %(classNumber,startingPosition))
+
+        pddl_file.write("\n")
+
+        pddl_file.write("    ;; Obstacles\n")
+        for obstacleType,obstaclePlacementList in enumerate(self.obstacles_placements):
+            for obstacleIndex in obstaclePlacementList:
+                pddl_file.write("    (obstacle-at obstacle%s node%s)\n" %(obstacleType,obstacleIndex))
+                pddl_file.write("    (unpassable-at node%s)\n" %(obstacleIndex))
+
+        pddl_file.write("\n")
+
+        pddl_file.write("    ;; Define which class destroies which obstacles\n")
+        for classIndex in range(self.num_classes):
+            pddl_file.write("    (class-clear-obstacle class%s obstacle%s)\n" %(classIndex,classIndex))
+
+        pddl_file.write("\n")
+
+        pddl_file.write("    ;; Treasures\n")
+        for treasurePlacement in self.treasure_placements:
+            pddl_file.write("    (treasure-at node%s)\n" %(treasurePlacement))
+
+        pddl_file.write("\n")
+
+        pddl_file.write("    ;; Portals\n")
+        for portalPlacement in self.portal_placements:
+            pddl_file.write("    (portal-at node%s)\n" %(portalPlacement))
+
+        pddl_file.write("\n")
 
     def generate_node_connectings(self,number_of_nodes : int,max_degree : int):
         connected_node_list : list[list[int]] = [[] for i in range(number_of_nodes)]
