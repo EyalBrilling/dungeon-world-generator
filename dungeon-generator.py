@@ -87,6 +87,8 @@ class Problem:
         self.write_define_section(pddl_file)
         pddl_file.write("\n")
         self.write_init_section(pddl_file)
+        self.write_goal_section(pddl_file)
+        
     def write_define_section(self,pddl_file):
         file_name = os.path.splitext(os.path.basename(self.problem_path))[0]
         pddl_file.write("(define (problem %s)\n" %(file_name))
@@ -141,6 +143,8 @@ class Problem:
             pddl_file.write("    (portal-at node%s)\n" %(portalPlacement))
 
         pddl_file.write("\n")
+
+    def write_goal_section(self,pddl_file):
 
     def generate_node_connectings(self,number_of_nodes : int,max_degree : int):
         connected_node_list : list[list[int]] = [[] for i in range(number_of_nodes)]
