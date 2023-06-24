@@ -30,7 +30,7 @@ class Problem:
 
     def parse_arguments(self, args):
         if len(args) != 8:
-            print("Invalid number of arguments!")
+            print("Invalid number of arguments! Arguments are:\n 1) Number of nodes 2) Mean degree 3) Classes 4) Obstacles 5) Treasures 6) Portals 7) Question path")
             return False
 
         try:
