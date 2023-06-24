@@ -16,7 +16,7 @@ The arguments are:
 Will result at the following 5 pddl files:
 
 ``` txt
-1) Easy level with 10 nodes,5 treasure and 1 obstacle.
+1) Easy level with 10 nodes,5 treasure and 5 obstacle.
 2) Medium level with 50 nodes,10 treasure and 40 obstacles
 3) Medium level with 50 nodes,40 treasures and 10 obstacles
 4) Medium level with 50 nodes,40 treasures and 40 obstacles
