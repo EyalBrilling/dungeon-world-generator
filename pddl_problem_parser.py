@@ -47,7 +47,8 @@ class Problem_Info:
                 self.connected_nodes.append([node1_idx, node2_idx])
             elif "(class-at" in line:
                 _, class_name, node_name = line.split()
-                self.classes_starting_position.append(node_name)
+                node_idx = int(node_name.replace(")",'')[4:])
+                self.classes_starting_position.append(node_idx)
             elif "(obstacle-at" in line:
                 _, obstacle_name, node_name = line.split()
                 obstacle_type_idx = int(obstacle_name[8:])
